@@ -7,9 +7,15 @@ class HashSet
   end
 
   def insert(key)
+    resize! if self.index(key) >= num_buckets
+    if !self[key.hash].include?(key)
+      self[key.hash] << key
+      @count += 1
+    end
   end
 
   def include?(key)
+    self[key.hash].include?(key)
   end
 
   def remove(key)
@@ -19,6 +25,7 @@ class HashSet
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    @store[(num % num_buckets)]
   end
 
   def num_buckets
@@ -26,5 +33,9 @@ class HashSet
   end
 
   def resize!
+    @count = 0
+    new_store = @store  
+    @store = Array.new(num_buckets * 2) {Array.new}
+    new_store.flatten.each { |num| insert(num) }
   end
 end
