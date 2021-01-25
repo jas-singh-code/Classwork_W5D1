@@ -1,10 +1,13 @@
 class Integer
   # Integer#hash already implemented for you
+  self.hash
 end
 
 class Array
   def hash
+    self.map(&:hash).sum
   end
+
 end
 
 class String
