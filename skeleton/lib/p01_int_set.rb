@@ -84,7 +84,8 @@ class ResizingIntSet
   end
 
   def insert(num)
-    if !self[num][0] == (num)
+    resize! if num > num_buckets
+    if !self[num].include?(num)
       self[num] << num
     end
   end
@@ -117,9 +118,6 @@ class ResizingIntSet
 
     num_buckets.times do
       @store << Array.new
-    end
-    @store.each.with_index do |ele, i|
-      @store[i % num_buckets] = @store[i] 
     end
   end
 end
