@@ -38,23 +38,36 @@ end
 
 
 class IntSet
+  attr_reader :store
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
   end
 
   def insert(num)
+    if include?(num)
+      return false 
+    else
+      self[num] << num
+    end
+    true
   end
 
   def remove(num)
+    self[num].delete(num)
   end
 
   def include?(num)
+    #To look up a number in the set, modulo (%) the number by the set's length, 
+    #and add it to the array at that index. If the integer is present in that bucket,
+    # that's how we know it's included in the set.
+    self[num].include?(num)
   end
 
   private
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    @store[num % num_buckets]
   end
 
   def num_buckets
