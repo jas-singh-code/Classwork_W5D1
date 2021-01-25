@@ -1,26 +1,38 @@
 class MaxIntSet
+  attr_accessor :store
   def initialize(max)                                 #  0      1     2     3
     @store = Array.new(max, false)          # max= 4 ;[false, true, true ,false]
   end                                       # max= 4 hash[5] = true [{5: true}, {12: true}, {3: false}] [5,12]
 
   def insert(num)
-    is_valid?(num)
+    validate!(num)
+    @store[num] = true      
   end
 
   def remove(num)
+    @store[num] = false
   end
 
   def include?(num)
+    @store[num]
   end
+
+  def [](idx)
+    @store[idx]
+  end 
 
   private
 
   def is_valid?(num)
-    raise "Out of bounds" if num > @store.length - 1 || num < 0
-    true
+    if num > @store.length - 1 || num < 0
+      return false
+    else
+      return true
+    end
   end
 
   def validate!(num)
+    raise "Out of bounds" if !is_valid?(num)
   end
 end
 
