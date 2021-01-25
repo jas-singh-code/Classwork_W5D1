@@ -106,8 +106,14 @@ class ResizingIntSet
   def resize!
     #make new store
     #put all elements in specified places depending on modulo new size
-    new_store = Array.new(num_buckets * 2) { Array.new }
-    @store.each { |num| new_store[num % (num_buckets * 2)] = num}
-    @store = new_store
+    # new_store = Array.new(num_buckets * 2) { Array.new }
+    # @store.each { |num| new_store[num % (num_buckets * 2)] = num}
+    # @store = new_store
+
+    num_buckets.times do
+      @store << Array.new
+    end
+    @store.each.with_index do |ele, i|
+      @store[i % num_buckets] = @store[i] 
   end
 end
