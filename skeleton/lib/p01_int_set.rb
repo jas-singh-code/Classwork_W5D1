@@ -76,7 +76,7 @@ class IntSet
 end
 
 class ResizingIntSet
-  attr_reader :count
+  attr_reader :count, :store
 
   def initialize(num_buckets = 20)
     @store = Array.new(num_buckets) { Array.new }
@@ -84,12 +84,17 @@ class ResizingIntSet
   end
 
   def insert(num)
+    if !self[num][0] == (num)
+      self[num] << num
+    end
   end
 
   def remove(num)
+    @count -= 1 if self[num].delete(num)
   end
 
   def include?(num)
+    self[num].include?(num)
   end
 
   private
@@ -115,5 +120,6 @@ class ResizingIntSet
     end
     @store.each.with_index do |ele, i|
       @store[i % num_buckets] = @store[i] 
+    end
   end
 end
