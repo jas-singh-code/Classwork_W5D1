@@ -96,6 +96,7 @@ class ResizingIntSet
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
+    @store[num % num_buckets]
   end
 
   def num_buckets
@@ -103,5 +104,10 @@ class ResizingIntSet
   end
 
   def resize!
+    #make new store
+    #put all elements in specified places depending on modulo new size
+    new_store = Array.new(num_buckets * 2) { Array.new }
+    @store.each { |num| new_store[num % (num_buckets * 2)] = num}
+    @store = new_store
   end
 end
